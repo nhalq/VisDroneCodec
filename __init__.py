@@ -66,6 +66,7 @@ class VisDroneCodec:
             'category_id': category,
             'bbox': bbox,
             'area': width * height,
+            'size': [width, height],
             'iscrowd': 0,
         })
 
@@ -96,7 +97,7 @@ class VisDroneCodec:
                     bb_left, bb_top, width, height = map(int, row[:4])
                     category = int(row[5])
 
-                    bbox = [bb_left, bb_top, width, height]
+                    bbox = [bb_left, bb_top, max(1, width), max(1, height)]
                     self.coco_add_annotation(image_id, bbox, category)
 
         with open(export_annotations_path / 'instances.json', 'w') as fs:
